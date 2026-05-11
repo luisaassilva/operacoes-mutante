@@ -73,4 +73,102 @@ describe('Suíte de Testes Fraca para 50 Operações Aritméticas', () => {
   test('48. deve calcular o dobro de um número', () => { expect(dobro(10)).toBe(20); });
   test('49. deve calcular o triplo de um número', () => { expect(triplo(10)).toBe(30); });
   test('50. deve calcular a metade de um número', () => { expect(metade(20)).toBe(10); });
+
+  //=== Testes novos feitos===
+   test('51. raizQuadrada lança erro para número negativo', () => {expect(() => raizQuadrada(-1)).toThrow();});
+  // fatorial: matar mutante que remove o guard de número negativo (linha 18)
+  test('52. fatorial lança erro para número negativo', () => {expect(() => fatorial(-1)).toThrow();});
+
+  // mediaArray: matar mutante que remove o retorno 0 para array vazio (linha 25)
+  test('53. mediaArray retorna 0 para array vazio', () => {expect(mediaArray([])).toBe(0);});
+
+  // maximoArray: matar mutante que remove o guard de array vazio (linha 34)
+  test('54. maximoArray lança erro para array vazio', () => {expect(() => maximoArray([])).toThrow();});
+
+  // minimoArray: matar mutante que remove o guard de array vazio (linha 38)
+  test('55. minimoArray lança erro para array vazio', () => {expect(() => minimoArray([])).toThrow();});
+
+  // isPar: matar mutante que força retorno true sempre (linha 43)
+  test('56. isPar retorna false para número ímpar', () => {expect(isPar(3)).toBe(false);});
+
+  // isImpar: matar mutante que força retorno true sempre e troca % por * (linha 44)
+  test('57. isImpar retorna false para número par', () => {expect(isImpar(4)).toBe(false);});
+
+  // isPrimo: matar mutantes que removem a verificação de n<=1 e o loop (linhas 73-75)
+  test('58. isPrimo retorna false para n=1 e n=0', () => {expect(isPrimo(1)).toBe(false);expect(isPrimo(0)).toBe(false);});
+  test('59. isPrimo retorna false para número composto', () => {expect(isPrimo(4)).toBe(false);expect(isPrimo(9)).toBe(false);});
+
+  // clamp: matar mutantes que removem os guards de min e max (linhas 88-89)
+  test('60. clamp retorna min quando valor é menor que o mínimo', () => {expect(clamp(-5, 0, 10)).toBe(0);});
+  test('61. clamp retorna max quando valor é maior que o máximo', () => {expect(clamp(15, 0, 10)).toBe(10);});
+
+  // isDivisivel: matar mutante que força retorno true sempre (linha 92)
+  test('62. isDivisivel retorna false quando não é divisível', () => {expect(isDivisivel(10, 3)).toBe(false);});
+
+  // celsiusParaFahrenheit: matar mutantes aritméticos (linha 93)
+  test('63. celsiusParaFahrenheit converte 100°C para 212°F', () => {expect(celsiusParaFahrenheit(100)).toBe(212);});
+
+  // fahrenheitParaCelsius: matar mutantes aritméticos (linha 94)
+  test('64. fahrenheitParaCelsius converte 212°F para 100°C', () => {expect(fahrenheitParaCelsius(212)).toBe(100);});
+
+  // inverso: matar mutante que remove o guard de zero (linha 96)
+  test('65. inverso lança erro para zero', () => {expect(() => inverso(0)).toThrow();});
+
+  // isMaiorQue: matar mutante que força true e troca > por >= (linha 104)
+  test('66. isMaiorQue retorna false quando não é maior', () => {expect(isMaiorQue(5, 10)).toBe(false);});
+  test('67. isMaiorQue retorna false para valores iguais', () => {expect(isMaiorQue(5, 5)).toBe(false);});
+
+  // isMenorQue: matar mutante que força true (linha 105)
+  test('68. isMenorQue retorna false quando não é menor', () => {expect(isMenorQue(10, 5)).toBe(false);});
+  test('69. isMenorQue retorna false para valores iguais', () => {expect(isMenorQue(5, 5)).toBe(false);});
+
+  // isEqual: matar mutante que força true (linha 106)
+  test('70. isEqual retorna false para números diferentes', () => {expect(isEqual(7, 8)).toBe(false);});
+
+  // medianaArray: matar mutantes de array vazio, sort e cálculo par/ímpar (linhas 108-111)
+  test('71. medianaArray lança erro para array vazio', () => {expect(() => medianaArray([])).toThrow();});
+  test('72. medianaArray ordena o array antes de calcular (detecta remoção do sort)', () => {expect(medianaArray([5, 1, 3])).toBe(3);});
+  test('73. medianaArray calcula corretamente para array de tamanho par', () => {expect(medianaArray([1, 2, 3, 4])).toBe(2.5);});
+});
+
+describe('Testes de Mensagem de Erro e Limites (Matar StringLiteral e EqualityOperator)', () => {
+  // Mata mutantes StringLiteral que trocam a mensagem por ""
+  // Para matar: o teste verifica que a mensagem contém o texto esperado
+  test('74. divisao lança erro com mensagem correta', () => {
+    expect(() => divisao(5, 0)).toThrow('Divisão por zero');
+  });
+
+  test('75. raizQuadrada lança erro com mensagem correta para negativo', () => {
+    expect(() => raizQuadrada(-1)).toThrow('raiz quadrada');
+  });
+
+  test('76. fatorial lança erro com mensagem correta para negativo', () => {
+    expect(() => fatorial(-1)).toThrow('negativos');
+  });
+
+  test('77. maximoArray lança erro com mensagem correta para array vazio', () => {
+    expect(() => maximoArray([])).toThrow('Array vazio');
+  });
+
+  test('78. minimoArray lança erro com mensagem correta para array vazio', () => {
+    expect(() => minimoArray([])).toThrow('Array vazio');
+  });
+
+  test('79. inverso lança erro com mensagem correta para zero', () => {
+    expect(() => inverso(0)).toThrow('inverter');
+  });
+
+  test('80. medianaArray lança erro com mensagem correta para array vazio', () => {
+    expect(() => medianaArray([])).toThrow('mediana');
+  });
+
+  // Mata mutantes EqualityOperator que trocam < por <= nas linhas 13 e 18
+  // Com <= 0, raizQuadrada(0) e fatorial(0) jogariam erro indevidamente
+  test('81. raizQuadrada retorna 0 para entrada 0 (sem lançar erro)', () => {
+    expect(raizQuadrada(0)).toBe(0);
+  });
+
+  test('82. fatorial retorna 1 para entrada 0 (sem lançar erro)', () => {
+    expect(fatorial(0)).toBe(1);
+  });
 });
